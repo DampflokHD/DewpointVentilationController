@@ -166,8 +166,7 @@ void loop() {
   }
 
   // **** some debbugging if debugSerial monitor is connected ****
-  debugSerial.println();
-  debugSerial.println(F("Measurements:"));
+  debugSerial.println(F("\nMeasurements:"));
   if (sensor1_ok) {
     debugSerial.print(F("Sensor-1: Humidity: "));
     debugSerial.print(sensorData1.humidity);
