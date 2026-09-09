@@ -105,7 +105,7 @@ This hysteresis prevents the relay from rapidly switching when the measured diff
 | 6 | PB1 | Relay control output |
 | 7 | PB2 | I2C SCL, fixed by the USI peripheral |
 | 2 | PB3 | TX-only debug output |
-| 3 | PB4 | Error LED or error output |
+| 3 | PB4 | Error LED |
 | 4 | GND | Ground |
 | 8 | VCC | Supply voltage |
 
