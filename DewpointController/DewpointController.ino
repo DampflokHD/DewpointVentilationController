@@ -689,30 +689,40 @@ void loop() {
     debugSerial.println(F("RELAY OFF FAILSAFE"));
   }
 
-  debugSerial.println();
-  debugSerial.println(F("Measurements:"));
+  // **** some debbugging if debugSerial monitor is connected ****
+  debugSerial.println(F("\n----- Measurements -----"));
   if (sensor1_ok) {
-    debugSerial.print(F("Sensor-1: T="));
-    debugSerial.print(sensorData1.temperature);
-    debugSerial.print(F("°C H="));
+    debugSerial.print(F("Sensor-1: Humidity: "));
     debugSerial.print(sensorData1.humidity);
-    debugSerial.print(F("% DP="));
-    if (dewpoint1_ok) debugSerial.println(dewpoint1);
-    else debugSerial.println(F("invalid"));
+    debugSerial.print(F(" % Temperature: "));
+    debugSerial.print(sensorData1.temperature);
+    debugSerial.print(F(" °C Dewpoint: "));
+    if (dewpoint1_ok) {
+      debugSerial.print(dewpoint1);
+      debugSerial.println(F(" °C"));
+    } else {
+      debugSerial.println(F(" invalid"));
+    }
   } else {
     debugSerial.println(F("Sensor-1: unavailable"));
   }
+  // ********************************************************
   if (sensor2_ok) {
-    debugSerial.print(F("Sensor-2: T="));
-    debugSerial.print(sensorData2.temperature);
-    debugSerial.print(F("°C H="));
+    debugSerial.print(F("Sensor-2: Humidity: "));
     debugSerial.print(sensorData2.humidity);
-    debugSerial.print(F("% DP="));
-    if (dewpoint2_ok) debugSerial.println(dewpoint2);
-    else debugSerial.println(F("invalid"));
+    debugSerial.print(F(" % Temperature: "));
+    debugSerial.print(sensorData2.temperature);
+    debugSerial.print(F(" °C Dewpoint: "));
+    if (dewpoint2_ok) {
+      debugSerial.print(dewpoint2);
+      debugSerial.println(F(" °C"));
+    } else {
+      debugSerial.println(F(" invalid"));
+    }
   } else {
     debugSerial.println(F("Sensor-2: unavailable"));
   }
+  // ********************************************************
 
   if (is_relay_on) {
     RELAY_ON;
