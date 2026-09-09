@@ -297,6 +297,8 @@ The dew point describes the moisture content of air more reliably for this use c
 │   ├── deepsleep.cpp              # Watchdog and power-down sleep
 │   ├── dewpoint.cpp               # Dew point calculation
 │   └── main.cpp                   # Modular application entry point
+├── LICENSE                        # GPLv3 license
+├── README.md                      # Project documentation
 └── .gitignore                     # Ignored build and editor files
 ```
 
