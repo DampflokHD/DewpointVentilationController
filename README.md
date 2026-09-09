@@ -209,7 +209,7 @@ The debug output is TX-only and uses the configured baud rate. Connect the seria
 
 ## Clock and Fuse Configuration
 
-The reference configuration targets an ATtiny85 at 1 MHz. Select the matching clock and fuse settings in the Arduino IDE according to the installed board core and hardware.
+The reference configuration targets an ATtiny85 at 1 MHz (for most power-saving). Select the matching clock and fuse settings in the Arduino IDE according to the installed board core and hardware.
 
 Confirm the oscillator source and clock division before programming. An incorrect clock configuration affects:
 
@@ -219,6 +219,58 @@ Confirm the oscillator source and clock division before programming. An incorrec
 - delay functions
 
 The documented sleep interval is approximate. The watchdog oscillator has its own tolerance, so measure the real wake-up interval if precise timing is required.
+
+## ATtiny Installation & Board Configuration (Arduino IDE)
+
+This library supports the classic ATtiny series (**ATtiny25, ATtiny45, and ATtiny85**). To program these chips in the Arduino IDE, you need to install the **ATTinyCore** hardware package.
+
+### 1. Install ATTinyCore
+1. Open the **Arduino IDE**.
+2. Go to **File** → **Preferences** (on macOS: *Arduino* → *Preferences*).
+3. Find the field **Additional Boards Manager URLs**.
+4. Copy and paste the following URL into the field:
+   ```text
+   https://descartes.net/package_drazzy.com_index.json
+   ```
+   *(Note: If there are already other URLs there, separate them with a comma or place them on a new line).*
+5. Click **OK**.
+6. Navigate to **Tools** → **Board** → **Boards Manager...**
+7. Type **ATTinyCore** into the search bar, locate the entry by *Spence Konde*, and click **Install**.
+
+### 2. Configure Your Board Settings
+Open the **Tools** menu in your Arduino IDE and adjust the configuration to match your hardware setup. Here is how to configure it correctly:
+
+* **Board:** Select `ATTinyCore` → `ATtiny25/45/85 (No bootloader)`. *Choosing the "No bootloader" version is ideal since you are uploading your code directly via an ISP programmer.*
+* **Port:** Select the serial port that your ISP programmer is connected to.
+* **B.O.D. Level:** Choose according to your project's power and hardware preferences.
+* **Chip:** Select the **exact chip** you are using (`ATtiny25`, `ATtiny45`, or `ATtiny85`).
+* **Clock Source:** Choose your desired clock speed (e.g., `1 MHz (internal)` for maximum power savings or `8 MHz (internal)` for standard performance). You can also use an external crystal (quartz) if your hardware requires it.
+* **Save EEPROM:** Select `EEPROM retained` if you want to keep your data stored in the EEPROM when uploading new sketches. *(Note: Burning the bootloader will always erase the EEPROM, but enabling this option ensures your data persists during normal code uploads).*.
+* **LTO:** Select `Enabled`. Link Time Optimization (LTO) significantly reduces the flash memory occupied by your code. It is highly recommended for space-constrained chips like the ATtiny and works flawlessly with this library.
+* **millis()/micros():** You can leave this `Enabled` or change it to `Disabled` to save a massive amount of flash memory. *Note: This library is highly optimized and works perfectly even with millis/micros disabled.*
+* **Timer 1 Clock:** Keep this on the default setting: `CPU (CPU frequency)`.
+* **Programmer:** Select the ISP programmer you are using to connect to the chip (e.g., `Arduino as ISP` or `USBtinyISP`).
+
+
+### 3. Crucial Step: Apply Settings to the Hardware (Fuses)
+Before uploading your actual sketch for the first time—or whenever you change core hardware options like the **Clock Source** or **B.O.D. Level**—you must write these settings onto the physical chip. 
+
+1. Connect your **ISP Programmer** to the pins of your ATtiny chip.
+2. Ensure your correct programmer is selected under **Tools** → **Programmer**.
+3. Click **Burn Bootloader** (at the very bottom of the *Tools* menu).
+   *(Don't worry: this does not actually load a heavy bootloader onto the chip; it simply configures the internal hardware registers and fuses to match your selected settings).*
+
+⚠️ **Note:** This step only needs to be done once for a new chip, or whenever you modify any of the hardware-defining settings in the **Tools** menu. For standard code uploads, you can skip this step.
+
+
+### 4. Upload Your Sketch to the ATtiny
+Since your chip does not use a bootloader, you must upload your sketch using your ISP programmer.
+
+1. Open your sketch in the Arduino IDE.
+2. Go to the **Sketch** menu.
+3. Click **Upload Using Programmer** (or press `Ctrl + Shift + U` / `Cmd + Shift + U` on macOS).
+
+Your code is now running and ready to go on your ATtiny!
 
 ## Error Handling and Failsafe Behavior
 
