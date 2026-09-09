@@ -36,6 +36,11 @@ This assignment is used throughout the program. Sensor 1 is used as the indoor v
 
 The physical sensor wiring must match this assignment. The BME280 address is selected by the sensor's SDO/ADR connection. If the physical sensors are reversed, exchange the two address definitions in both configurations:
 
+* **Address 0x76 (Sensor 1):** Connect the **SDO/ADR** pin to **GND** (Low).
+* **Address 0x77 (Sensor 2):** Connect the **SDO/ADR** pin to **VCC/3.3V** (High).
+
+*(Note: Most BME280 breakout boards have an internal pull-down resistor, making `0x76` the default address if the pin is left unconnected).*
+
 ```cpp
 #define BME1_ADDRESS 0x77 // indoor sensor
 #define BME2_ADDRESS 0x76 // outdoor sensor
