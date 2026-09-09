@@ -111,6 +111,8 @@ This hysteresis prevents the relay from rapidly switching when the measured diff
 
 The ATtiny85 USI peripheral fixes I2C to PB0 and PB2 in this implementation. SDA and SCL are not configurable application pins.
 
+![ATTiny-Pinout Grafik](attiny_pinout.jpeg)
+
 ### I2C wiring
 
 Connect both BME280 sensors in parallel to the I2C bus:
